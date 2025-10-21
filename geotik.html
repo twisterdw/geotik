@@ -150,7 +150,7 @@ resize();
 let points = [0,0,0,0,0];
 
 // --- Background music ---
-const bgMusic = new Audio("https://raw.githubusercontent.com/twisterdw/geotik/main/mus/main.mp3");
+const bgMusic = new Audio("https://raw.githubusercontent.com/twisterdw/geotik/mus/main.mp3");
 bgMusic.loop = true;
 bgMusic.volume = 0.15;
 document.body.addEventListener("click", ()=>bgMusic.play(), {once:true});
@@ -158,11 +158,11 @@ bgMusic.play().catch(()=>console.log("Autoplay blocked"));
 
 // --- Sounds for points and wins ---
 const teamSounds = [
-  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/qeti/1.mp3","https://raw.githubusercontent.com/twisterdw/geotik/main/mus/qeti/2.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/qeti/kakaya%20osen.mp3"], currentPoint: null },
-  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/gogochuri/3.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/gogochuri/win.mp3"], currentPoint: null },
-  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/stefanich/1.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/stefanich/2.mp3"], currentPoint: null },
-  { point: [], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/maka/1.mp3"], currentPoint: null },
-  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/hota/1.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/hota/8.mp3"], currentPoint: null }
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/qeti/1.mp3","https://raw.githubusercontent.com/twisterdw/geotik/mus/qeti/2.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/qeti/kakaya%20osen.mp3"], currentPoint: null },
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/gogochuri/3.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/gogochuri/win.mp3"], currentPoint: null },
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/stefanich/1.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/stefanich/2.mp3"], currentPoint: null },
+  { point: [], win: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/maka/1.mp3"], currentPoint: null },
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/hota/1.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/mus/hota/8.mp3"], currentPoint: null }
 ];
 
 function playPointSound(team) {
@@ -193,12 +193,12 @@ class AgentSix {
     this.vy = (Math.random()-0.5)*2.4;
     this.sizeFixed=48;
     this.img = new Image();
-    this.img.src="https://raw.githubusercontent.com/twisterdw/geotik/main/tik.jpg";
+    this.img.src="https://raw.githubusercontent.com/twisterdw/geotik/tik.jpg";
     this.active=false;
     this.life=0;
     this.attachedTo=null;
     this.scoreTimer=0;
-    this.pointSound=new Audio("https://raw.githubusercontent.com/twisterdw/geotik/main/mus/raider/xrust.mp3");
+    this.pointSound=new Audio("https://raw.githubusercontent.com/twisterdw/geotik/mus/raider/xrust.mp3");
     this.pointSound.volume=0.5;
   }
   spawn(){ this.active=true; this.life=20; this.attachedTo=null; this.scoreTimer=0; }
@@ -257,7 +257,7 @@ class Coin {
     this.life=20;
     this.angle=0;
     this.img=new Image();
-    this.img.src="https://raw.githubusercontent.com/twisterdw/geotik/main/others/tikcoin.png";
+    this.img.src="https://raw.githubusercontent.com/twisterdw/geotik/others/tikcoin.png";
   }
   update(){ this.angle+=0.1; this.life-=1/60; if(this.life<=0) this.active=false; }
   draw(){
@@ -273,10 +273,11 @@ class Coin {
 
 // --- Coin pickup sound ---
 function handleCoinSound(){
-  const coinSound=new Audio("https://raw.githubusercontent.com/twisterdw/geotik/main/others/coin.mp3");
+  const coinSound=new Audio("https://raw.githubusercontent.com/twisterdw/geotik/others/coin.mp3");
   coinSound.volume=0.5;
   coinSound.play();
 }
 </script>
 </body>
 </html>
+
