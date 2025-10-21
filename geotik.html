@@ -5,21 +5,102 @@
 <title>ტიკტოკერთა ჯახი ✊✊</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
-:root{--bg:#111;--ui:#222;--text:#fff;}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter, Arial, sans-serif;overflow:hidden;display:flex;flex-direction:column;align-items:center;}
-h1{margin:8px 0 4px 0;font-weight:600;}
-#controls{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:6px;}
-button{font-size:16px;padding:8px 12px;border-radius:8px;border:0;background:#333;color:#fff;cursor:pointer}
-button:active{transform:translateY(1px)}
-#timer{margin-top:6px;font-size:18px}
-#timer.final-seconds{color:red; animation: flash 0.5s infinite;}
-@keyframes flash{0%{opacity:1;}50%{opacity:0;}100%{opacity:1;}}
-#winnerBox{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;}
-#winnerCard{background:linear-gradient(180deg,#222 0%, #2a2a2a 100%);border:2px solid rgba(255,255,255,0.06);padding:18px 26px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.6);display:flex;flex-direction:column;align-items:center;gap:8px;min-width:260px;opacity:0;transform:translateY(20px) scale(0.95);transition:all .35s ease;}
-#winnerCard.show{opacity:1; transform:translateY(0) scale(1);}
-#winnerEmoji{font-size:64px; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));}
-#winnerText{font-size:22px;font-weight:700}
-canvas{display:block;width:100%;flex:1;}
+:root {
+  --bg: #111;
+  --ui: #222;
+  --text: #fff;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  margin: 8px 0 4px 0;
+  font-weight: 600;
+}
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  padding: 6px;
+}
+button {
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 0;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+}
+button:active {
+  transform: translateY(1px);
+}
+#timer {
+  margin-top: 6px;
+  font-size: 18px;
+}
+#timer.final-seconds {
+  color: red;
+  animation: flash 0.5s infinite;
+}
+@keyframes flash {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+#winnerBox {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+#winnerCard {
+  background: linear-gradient(180deg,#222 0%, #2a2a2a 100%);
+  border: 2px solid rgba(255,255,255,0.06);
+  padding: 18px 26px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 260px;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all .35s ease;
+}
+#winnerCard.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+#winnerEmoji {
+  font-size: 64px;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));
+}
+#winnerText {
+  font-size: 22px;
+  font-weight: 700;
+}
+canvas {
+  display: block;
+  width: 100%;
+  flex: 1;
+}
 </style>
 </head>
 <body>
@@ -38,6 +119,7 @@ canvas{display:block;width:100%;flex:1;}
 </div>
 
 <div id="timer">05:00</div>
+
 <div id="winnerBox">
   <div id="winnerCard">
     <div id="winnerEmoji"></div>
@@ -48,7 +130,6 @@ canvas{display:block;width:100%;flex:1;}
 <canvas id="canvas"></canvas>
 
 <script>
-// --- Canvas setup ---
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d', { alpha: false });
 const timerLabel = document.getElementById('timer');
@@ -58,29 +139,33 @@ const winnerEmoji = document.getElementById('winnerEmoji');
 
 let W = window.innerWidth;
 let H = window.innerHeight - document.getElementById('controls').offsetHeight - 120;
-function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight - document.getElementById('controls').offsetHeight - 120; }
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight - document.getElementById('controls').offsetHeight - 120;
+}
 window.addEventListener('resize', resize);
 resize();
 
-let points = [0,0,0,0,0]; 
+let points = [0,0,0,0,0];
 
 // --- Background music ---
-const bgMusic = new Audio("C:/Users/aleqs/Desktop/geotik/mus/main.mp3");
+const bgMusic = new Audio("https://raw.githubusercontent.com/twisterdw/geotik/main/mus/main.mp3");
 bgMusic.loop = true;
 bgMusic.volume = 0.15;
-document.body.addEventListener("click",()=>bgMusic.play(), {once:true});
+document.body.addEventListener("click", ()=>bgMusic.play(), {once:true});
 bgMusic.play().catch(()=>console.log("Autoplay blocked"));
 
 // --- Sounds for points and wins ---
 const teamSounds = [
-  { point: ["C:/Users/aleqs/Desktop/geotik/mus/qeti/1.mp3","C:/Users/aleqs/Desktop/geotik/mus/qeti/2.mp3","C:/Users/aleqs/Desktop/geotik/mus/qeti/3.mp3","C:/Users/aleqs/Desktop/geotik/mus/qeti/4.mp3"], win: ["C:/Users/aleqs/Desktop/geotik/mus/qeti/kakaya osen.mp3","C:/Users/aleqs/Desktop/geotik/mus/qeti/seriorum.mp3"], currentPoint: null },
-  { point: ["C:/Users/aleqs/Desktop/geotik/mus/gogochuri/3.mp3","C:/Users/aleqs/Desktop/geotik/mus/gogochuri/2.mp3","C:/Users/aleqs/Desktop/geotik/mus/gogochuri/4.mp3"], win: ["C:/Users/aleqs/Desktop/geotik/mus/gogochuri/win.mp3"], currentPoint: null },
-  { point: ["C:/Users/aleqs/Desktop/geotik/mus/stefanich/1.mp3"], win: ["C:/Users/aleqs/Desktop/geotik/mus/stefanich/2.mp3"], currentPoint: null },
-  { point: [], win: ["C:/Users/aleqs/Desktop/geotik/mus/maka/1.mp3"], currentPoint: null },
-  { point: ["C:/Users/aleqs/Desktop/geotik/mus/hota/1.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/2.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/3.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/4.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/5.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/6.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/7.mp3"], win: ["C:/Users/aleqs/Desktop/geotik/mus/hota/8.mp3","C:/Users/aleqs/Desktop/geotik/mus/hota/9.mp3"], currentPoint: null }
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/qeti/1.mp3","https://raw.githubusercontent.com/twisterdw/geotik/main/mus/qeti/2.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/qeti/kakaya%20osen.mp3"], currentPoint: null },
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/gogochuri/3.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/gogochuri/win.mp3"], currentPoint: null },
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/stefanich/1.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/stefanich/2.mp3"], currentPoint: null },
+  { point: [], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/maka/1.mp3"], currentPoint: null },
+  { point: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/hota/1.mp3"], win: ["https://raw.githubusercontent.com/twisterdw/geotik/main/mus/hota/8.mp3"], currentPoint: null }
 ];
 
-function playPointSound(team){
+function playPointSound(team) {
   if(teamSounds[team].point.length===0) return;
   if(teamSounds[team].currentPoint && !teamSounds[team].currentPoint.ended) return;
   const path = teamSounds[team].point[Math.floor(Math.random()*teamSounds[team].point.length)];
@@ -91,7 +176,7 @@ function playPointSound(team){
   audio.onended = ()=>{teamSounds[team].currentPoint=null;}
 }
 
-function playWinSound(team){
+function playWinSound(team) {
   if(teamSounds[team].win.length===0) return;
   const path = teamSounds[team].win[Math.floor(Math.random()*teamSounds[team].win.length)];
   const audio = new Audio(path);
@@ -99,165 +184,60 @@ function playWinSound(team){
   audio.play();
 }
 
-// --- Agent class ---
-class Agent {
-  constructor(team){
-    this.team = team;
-    this.x = Math.random()*(W*0.7) + W*0.15;
-    this.y = Math.random()*(H*0.7) + H*0.15;
-    this.vx = (Math.random()-0.5)*2.4;
-    this.vy = (Math.random()-0.5)*2.4;
-    this.base = 48;
-    this.video = document.createElement('video');
-    this.video.src = `${team+1}.mp4`;
-    this.video.muted = true;
-    this.video.loop = true;
-    this.video.play();
-    this.shieldActive = false;
-    this.shieldTimer = 0;
-  }
-  size(){ return this.base + points[this.team]*6; }
-  update(){
-    this.vx += (Math.random()-0.5)*0.2;
-    this.vy += (Math.random()-0.5)*0.2;
-    const maxS = 3 + points[this.team]*0.05;
-    if(Math.abs(this.vx) > maxS) this.vx *= 0.92;
-    if(Math.abs(this.vy) > maxS) this.vy *= 0.92;
-    this.x += this.vx;
-    this.y += this.vy;
-    const r = this.size()/2;
-    if(this.x < r) { this.x = r; this.vx = Math.abs(this.vx); }
-    if(this.x > W-r) { this.x = W-r; this.vx = -Math.abs(this.vx);}
-    if(this.y < r) { this.y = r; this.vy = Math.abs(this.vy);}
-    if(this.y > H-r) { this.y = H-r; this.vy = -Math.abs(this.vy);}
-    if(this.shieldActive){
-      this.shieldTimer -= 1/60;
-      if(this.shieldTimer <= 0) this.shieldActive=false;
-    }
-  }
-  draw(){
-    const s = this.size();
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,s/2,0,Math.PI*2);
-    ctx.closePath();
-    ctx.clip();
-    ctx.drawImage(this.video,this.x-s/2,this.y-s/2,s,s);
-    ctx.restore();
-    if(points[this.team]!==0){
-      ctx.font = `${Math.max(12,s*0.35)}px Arial`;
-      ctx.lineWidth = Math.max(2,s*0.06);
-      ctx.strokeStyle = "rgba(0,0,0,0.85)";
-      ctx.strokeText(points[this.team], this.x + s*0.35, this.y - s*0.4);
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(points[this.team], this.x + s*0.35, this.y - s*0.4);
-    }
-    if(this.shieldActive){
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(this.x,this.y,s/2+10,0,Math.PI*2);
-      ctx.strokeStyle = "rgba(0,150,255,0.5)";
-      ctx.lineWidth = 6;
-      ctx.stroke();
-      ctx.restore();
-    }
-  }
-}
-
-// --- Shield class ---
-class Shield {
-  constructor(){
-    this.x = Math.random()*(W*0.7)+W*0.15;
-    this.y = Math.random()*(H*0.7)+H*0.15;
-    this.active = false;
-    this.life = 0;
-  }
-  spawn(){
-    this.active = true;
-    this.life = 30;
-  }
-  update(){
-    if(!this.active) return;
-    this.life -= 1/60;
-    if(this.life<=0) this.active=false;
-  }
-  draw(){
-    if(!this.active) return;
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,20,0,Math.PI*2);
-    ctx.fillStyle = "rgba(0,150,255,0.5)";
-    ctx.fill();
-    ctx.fillStyle = "#00f";
-    ctx.font = "18px Arial";
-    ctx.textAlign="center";
-    ctx.textBaseline="middle";
-    ctx.fillText("🛡️", this.x, this.y);
-    ctx.restore();
-  }
-}
-
-let shield = new Shield();
-
-// --- AgentSix class ---
+// --- AgentSix assets ---
 class AgentSix {
   constructor(){
     this.x = Math.random()*(W*0.7) + W*0.15;
     this.y = Math.random()*(H*0.7) + H*0.15;
     this.vx = (Math.random()-0.5)*2.4;
     this.vy = (Math.random()-0.5)*2.4;
-    this.base = 48;
-    this.sizeFixed = 48;
+    this.sizeFixed=48;
     this.img = new Image();
-    this.img.src = "C:/Users/aleqs/Desktop/geotik/tik.jpg";
-    this.active = false;
-    this.life = 0;
-    this.attachedTo = null;
-    this.scoreTimer = 0;
-    this.pointSound = new Audio("C:/Users/aleqs/Desktop/geotik/mus/raider/xrust.mp3");
-    this.pointSound.volume = 0.5;
+    this.img.src="https://raw.githubusercontent.com/twisterdw/geotik/main/tik.jpg";
+    this.active=false;
+    this.life=0;
+    this.attachedTo=null;
+    this.scoreTimer=0;
+    this.pointSound=new Audio("https://raw.githubusercontent.com/twisterdw/geotik/main/mus/raider/xrust.mp3");
+    this.pointSound.volume=0.5;
   }
-  spawn(){
-    this.active = true;
-    this.life = 20;
-    this.attachedTo = null;
-    this.scoreTimer = 0;
-  }
-  size(){ return this.sizeFixed; }update(){
+  spawn(){ this.active=true; this.life=20; this.attachedTo=null; this.scoreTimer=0; }
+  size(){ return this.sizeFixed; }
+  update(){
     if(!this.active) return;
     if(this.attachedTo!==null){
-      this.x = this.attachedTo.x;
-      this.y = this.attachedTo.y;
-      this.scoreTimer += 1/60;
+      this.x=this.attachedTo.x;
+      this.y=this.attachedTo.y;
+      this.scoreTimer+=1/60;
       if(this.scoreTimer>=1){
-        const t = this.attachedTo.team;
+        const t=this.attachedTo.team;
         if(points[t]>0 && !this.attachedTo.shieldActive){
-          points[t] -= 1;
-          this.pointSound.currentTime = 0;
+          points[t]-=1;
+          this.pointSound.currentTime=0;
           this.pointSound.play();
         }
-        this.scoreTimer = 0;
+        this.scoreTimer=0;
       }
     } else {
-      this.vx += (Math.random()-0.5)*0.2;
-      this.vy += (Math.random()-0.5)*0.2;
-      const maxS = 3;
-      if(Math.abs(this.vx) > maxS) this.vx *= 0.92;
-      if(Math.abs(this.vy) > maxS) this.vy *= 0.92;
-      this.x += this.vx;
-      this.y += this.vy;
-      const r = this.size()/2;
-      if(this.x < r) { this.x = r; this.vx = Math.abs(this.vx); }
-      if(this.x > W-r) { this.x = W-r; this.vx = -Math.abs(this.vx);}
-      if(this.y < r) { this.y = r; this.vy = Math.abs(this.vy);}
-      if(this.y > H-r) { this.y = H-r; this.vy = -Math.abs(this.vy);}
+      this.vx+=(Math.random()-0.5)*0.2;
+      this.vy+=(Math.random()-0.5)*0.2;
+      const maxS=3;
+      if(Math.abs(this.vx)>maxS) this.vx*=0.92;
+      if(Math.abs(this.vy)>maxS) this.vy*=0.92;
+      this.x+=this.vx;
+      this.y+=this.vy;
+      const r=this.size()/2;
+      if(this.x<r){this.x=r;this.vx=Math.abs(this.vx);}
+      if(this.x>W-r){this.x=W-r;this.vx=-Math.abs(this.vx);}
+      if(this.y<r){this.y=r;this.vy=Math.abs(this.vy);}
+      if(this.y>H-r){this.y=H-r;this.vy=-Math.abs(this.vy);}
     }
-    this.life -= 1/60;
+    this.life-=1/60;
     if(this.life<=0) this.active=false;
   }
   draw(){
     if(!this.active) return;
-    const s = this.size();
+    const s=this.size();
     ctx.save();
     ctx.beginPath();
     ctx.arc(this.x,this.y,s/2,0,Math.PI*2);
@@ -271,189 +251,32 @@ class AgentSix {
 // --- Coin class ---
 class Coin {
   constructor(){
-    this.x = Math.random()*(W-40)+20;
-    this.y = Math.random()*(H-40)+20;
-    this.active = true;
-    this.life = 20;
-    this.angle = 0;
+    this.x=Math.random()*(W-40)+20;
+    this.y=Math.random()*(H-40)+20;
+    this.active=true;
+    this.life=20;
+    this.angle=0;
+    this.img=new Image();
+    this.img.src="https://raw.githubusercontent.com/twisterdw/geotik/main/others/tikcoin.png";
   }
-  update(){
-    this.angle += 0.1;
-    this.life -= 1/60;
-    if(this.life<=0) this.active=false;
-  }
+  update(){ this.angle+=0.1; this.life-=1/60; if(this.life<=0) this.active=false; }
   draw(){
     if(!this.active) return;
+    const s=40;
     ctx.save();
     ctx.translate(this.x,this.y);
     ctx.rotate(this.angle);
-    ctx.font = "28px Arial";
-    ctx.textAlign="center";
-    ctx.textBaseline="middle";
-    ctx.fillStyle="gold";
-    ctx.fillText("🪙",0,0);
+    ctx.drawImage(this.img,-s/2,-s/2,s,s);
     ctx.restore();
   }
 }
 
-let coins=[];
-
-// --- Spawn Like ❤️ ---
-function spawnLike(){
-  coins.push(new Coin());
+// --- Coin pickup sound ---
+function handleCoinSound(){
+  const coinSound=new Audio("https://raw.githubusercontent.com/twisterdw/geotik/main/others/coin.mp3");
+  coinSound.volume=0.5;
+  coinSound.play();
 }
-
-// --- Game setup ---
-let agents = [];
-let agentSix = new AgentSix();
-
-function resetAgents(){
-  agents = [];
-  const anchors = [
-    {x: W*0.12, y: H*0.12},
-    {x: W*0.12, y: H*0.88},
-    {x: W*0.88, y: H*0.12},
-    {x: W*0.88, y: H*0.88},
-    {x: W*0.5,  y: H*0.5}
-  ];
-  for(let i=0;i<5;i++){
-    const a = new Agent(i);
-    a.x = anchors[i].x + (Math.random()-0.5) * 60;
-    a.y = anchors[i].y + (Math.random()-0.5) * 60;
-    agents.push(a);
-  }
-}
-
-// --- Spawn 6th agent ---
-function spawnSix(){ agentSix.spawn(); }
-
-// --- Spawn shield ---
-function spawnShield(){ 
-  shield.x = Math.random()*(W-40)+20;
-  shield.y = Math.random()*(H-40)+20;
-  shield.active = true; 
-  shield.life = 30;
-}
-
-// --- Collisions ---
-function handleCollisions(){
-  // Agents collide
-  for(let i=0;i<agents.length;i++){
-    for(let j=i+1;j<agents.length;j++){
-      const A=agents[i], B=agents[j];
-      const dx=B.x-A.x, dy=B.y-A.y;
-      const dist=Math.hypot(dx,dy)||0.0001;
-      const minDist=(A.size()+B.size())*0.28;
-      if(dist<minDist){
-        const overlap=minDist-dist, nx=dx/dist, ny=dy/dist;
-        A.x-=nx*overlap*0.5; A.y-=ny*overlap*0.5;
-        B.x+=nx*overlap*0.5; B.y+=ny*overlap*0.5;
-        A.vx=(A.vx-nx*0.5)*0.9; A.vy=(A.vy-ny*0.5)*0.9;
-        B.vx=(B.vx+nx*0.5)*0.9; B.vy=(B.vy+ny*0.5)*0.9;
-      }
-    }
-  }
-
-  // Sixth agent collision
-  if(agentSix.active && agentSix.attachedTo===null){
-    for(let i=0;i<agents.length;i++){
-      const A=agentSix, B=agents[i];
-      const dx = B.x - A.x;
-      const dy = B.y - A.y;
-      const dist = Math.hypot(dx,dy);
-      const minDist = (A.size()+B.size())*0.5;
-      if(dist<minDist){
-        A.attachedTo = B;
-        break;
-      }
-    }
-  }
-
-  // --- Shield collision ---
-  if(shield.active){
-    for(let i=0;i<agents.length;i++){
-      const dx = agents[i].x - shield.x;
-      const dy = agents[i].y - shield.y;
-      const dist = Math.hypot(dx,dy);
-      if(dist<agents[i].size()/2 + 20){
-        agents[i].shieldActive = true;
-        agents[i].shieldTimer = 30; // 30 секунд
-        shield.active = false;
-      }
-    }
-  }
-}
-
-// --- Render ---
-function render(){
-  ctx.fillStyle = "#111";
-  ctx.fillRect(0,0,W,H);
-  agents.forEach(a=>{a.update(); a.draw();});
-  agentSix.update(); agentSix.draw();
-  shield.update(); shield.draw();
-  handleCollisions();
-  requestAnimationFrame(render);
-}
-
-// --- Timer ---
-let timeLeft=300, timerInterval=null, restartTimeout=null; // 5 min round
-function updateTimerLabel(){
-  const m = String(Math.floor(timeLeft/60)).padStart(2,'0');
-  const s = String(timeLeft%60).padStart(2,'0');
-  timerLabel.textContent = `${m}:${s}`;
-  if(timeLeft<=10) timerLabel.classList.add('final-seconds');
-  else timerLabel.classList.remove('final-seconds');
-}
-
-// --- Round control ---
-function startRound(){
-  points=[0,0,0,0,0];
-  resetAgents();
-  agentSix.active=false;
-  shield.active=false;
-  hideWinner();
-  timeLeft=300;
-  updateTimerLabel();
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval=setInterval(()=>{
-    timeLeft--;
-    updateTimerLabel();
-    if(timeLeft<=0){
-      clearInterval(timerInterval);
-      finishRound();
-    }
-  },1000);
-}
-
-function finishRound(){
-  const maxP = Math.max(...points);
-  const winners=[];
-  points.forEach((p,i)=>{if(p===maxP) winners.push(i);});
-  let text, emoji;
-  const names = ["ეგიდუნაშვილი","გოგოჭური","სტეფანიჩი","მაკა","ჰოთიკო"];
-  if(winners.length===1){text=`გამარჯვებულია ${names[winners[0]]}`; emoji='🏆'; playWinSound(winners[0]);}
-  else{text="დასრულდა ფრედ"; emoji="🤝";}
-  showWinner(emoji,text);
-  if(restartTimeout) clearTimeout(restartTimeout);
-  restartTimeout = setTimeout(()=>{startRound();},30000);
-}
-
-function showWinner(e,t){winnerEmoji.textContent=e; winnerText.textContent=t; winnerCard.classList.add('show');}
-function hideWinner(){winnerCard.classList.remove('show');}
-function addPoint(team){
-  if(team >= 0 && team <= 4){ // команды 1–5
-    points[team] = (points[team] || 0) + 5;
-  } else { // команды 6 и 7 остаются без изменений
-    points[team] = (points[team] || 0) + 1;
-  }
-  playPointSound(team);
-}
-
-// --- Init ---
-resetAgents();
-render();
-startRound();
 </script>
-
 </body>
 </html>
